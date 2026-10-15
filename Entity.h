@@ -12,7 +12,7 @@ public:
     Entity() : maID("") {}
     virtual ~Entity() {}
     void setMaID(const string& id);
-    string getMaID();
+    string const getMaID();
 
     // BẮT BUỘC phải có các hàm ảo này ở lớp cha thì lớp con mới dùng được 'override'
     virtual void nhap() = 0;                              
