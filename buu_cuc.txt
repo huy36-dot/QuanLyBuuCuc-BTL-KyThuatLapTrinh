@@ -1,0 +1,10 @@
+BC01|Buu cuc Ha Noi|12 Chua Boc, Dong Da|0912345678
+BC02|Buu cuc Ho Chi Minh|45 Nguyen Hue, Q.1|0988765432
+BC03|Buu cuc Da Nang|78 Le Duan, Hai Chau|0905112233
+BC04|Buu cuc Cau Giay|144 Xuan Thuy Cau Giay Ha Noi|0912345678
+BC05|Buu cuc Ha Dong|10 Tran Phu Ha Dong|0923456789
+BC06|Buu cuc Hoan Kiem|75 Dinh Tien Hoang Hoan Kiem|0934567890
+BC07|Buu cuc Hai Ba Trung|55 Dai Co Viet Hai Ba Trung|0945678901
+BC08|Buu cuc Da Nang|123 Nguyen Van Linh Thanh Khe|0956789012
+BC09|Buu cuc Quan 1|45 Nguyen Hue Ben Nghe|0967890123
+BC10|Buu cuc Thu Duc|12 Vo Van Ngan Thu Duc|0978901234
