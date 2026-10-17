@@ -17,9 +17,10 @@ class LoaiDichVu : public Entity {
 private:
     string tenDichVu;
     double phuPhi;
+    string moTa; // Thêm thuộc tính thứ 3 để đảm bảo đúng yêu cầu đề bài (>= 3 thuộc tính)
 
 public:
-    LoaiDichVu() : Entity(), tenDichVu(""), phuPhi(0.0) {}
+    LoaiDichVu() : Entity(), tenDichVu(""), phuPhi(0.0), moTa("") {}
 
     string getTenDichVu() const { return tenDichVu; }
     void setTenDichVu(const string& ten) {
@@ -31,6 +32,11 @@ public:
     void setPhuPhi(double pp) {
         if (pp < 0) throw invalid_argument("Phu phi khong duoc am!");
         phuPhi = pp;
+    }
+
+    string getMoTa() const { return moTa; }
+    void setMoTa(const string& mt) {
+        moTa = mt;
     }
 
     void nhap() override {
@@ -53,16 +59,18 @@ public:
             }
             catch (const exception& e) { cout << "Loi: " << e.what() << "\n"; }
         }
+        cout << "Nhap mo ta dich vu: "; getline(cin, moTa);
     }
 
     void xuat() const override {
-        cout << left << setw(10) << maID << "| " << setw(28) << tenDichVu
-             << "| " << setw(15) << fixed << setprecision(0) << phuPhi << endl;
+        cout << left << setw(10) << maID << "| " << setw(20) << tenDichVu
+             << "| " << setw(12) << fixed << setprecision(0) << phuPhi 
+             << "| " << setw(25) << moTa << endl;
     }
 
     string toFileRecord() const override {
         stringstream ss;
-        ss << maID << "|" << tenDichVu << "|" << phuPhi;
+        ss << maID << "|" << tenDichVu << "|" << phuPhi << "|" << moTa;
         return ss.str();
     }
 
@@ -70,10 +78,11 @@ public:
         stringstream ss(record);
         string item; vector<string> tokens;
         while (getline(ss, item, '|')) tokens.push_back(item);
-        if (tokens.size() == 3) {
+        if (tokens.size() >= 3) {
             maID = tokens[0];
             tenDichVu = tokens[1];
             phuPhi = stod(tokens[2]);
+            if (tokens.size() >= 4) moTa = tokens[3];
         }
     }
 };
@@ -85,8 +94,9 @@ private:
     void xoaManHinh() const { system("cls"); }
     void tamDung() const { cout << "\nNhan Enter de tiep tuc..."; cin.get(); }
     void inTieuDeBang() const {
-        cout << left << setw(10) << "Ma DV" << "| " << setw(28) << "Ten Loai Dich Vu" << "| " << setw(15) << "Phu Phi (VND)" << endl;
-        cout << string(58, '-') << endl;
+        cout << left << setw(10) << "Ma DV" << "| " << setw(20) << "Ten Loai Dich Vu" 
+             << "| " << setw(12) << "Phu Phi" << "| " << setw(25) << "Mo Ta" << endl;
+        cout << string(73, '-') << endl;
     }
 
 public:
@@ -112,7 +122,7 @@ public:
     void xemDanhSach() const {
         auto list = repo.getAll();
         if (list.empty()) { cout << "\nDanh sach loai dich vu trong!\n"; return; }
-        cout << "\n====================== DANH SACH LOAI DICH VU ======================\n";
+        cout << "\n======================== DANH SACH LOAI DICH VU ========================\n";
         inTieuDeBang();
         for (const auto& item : list) item.xuat();
         cout << "Tong so loai dich vu: " << list.size() << endl;
@@ -133,11 +143,11 @@ public:
         if (list.empty()) { cout << "\nDanh sach trong!\n"; return; }
 
         sort(list.begin(), list.end(), [](const LoaiDichVu& a, const LoaiDichVu& b) {
-            return a.getTenDichVu() < b.getTenDichVu(); // Sắp xếp tên từ A-Z
+            return a.getTenDichVu() < b.getTenDichVu();
         });
 
         cout << "-> Da sap xep danh sach theo Ten Dich Vu (A-Z)!\n";
-        cout << "\n====================== KET QUA SAP XEP ======================\n";
+        cout << "\n======================== KET QUA SAP XEP ========================\n";
         inTieuDeBang();
         for (const auto& item : list) item.xuat();
     }
@@ -159,6 +169,9 @@ public:
         cout << "Nhap phu phi moi [" << old->getPhuPhi() << "]: "; getline(cin, temp);
         if (!temp.empty()) newData.setPhuPhi(stod(temp));
 
+        cout << "Nhap mo ta moi [" << old->getMoTa() << "]: "; getline(cin, temp);
+        if (!temp.empty()) newData.setMoTa(temp);
+
         if (repo.update(id, newData)) cout << "-> Cap nhat thanh cong!\n";
         else cout << "Loi khi cap nhat!\n";
     }
@@ -168,7 +181,7 @@ public:
         LoaiDichVu* target = repo.findById(id);
         if (target == nullptr) { cout << "Khong tim thay ma loai dich vu nay!\n"; return; }
 
-        cout << "\nThong tin chuan bi xoa:\n"; inTieuDeBang(); target->xuat();
+        cout << "\nThon tin chuan bi xoa:\n"; inTieuDeBang(); target->xuat();
         cout << "Ban co chac chan muon xoa khong? (y/n): ";
         char confirm; cin >> confirm; cin.ignore(10000, '\n');
 
