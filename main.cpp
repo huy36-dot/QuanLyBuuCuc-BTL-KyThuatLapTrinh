@@ -27,7 +27,11 @@ int main() {
         cout << "======================================\n";
         cout << "Chon: ";
 
-        if (!(cin >> choice)) { cin.clear(); cin.ignore(10000, '\n'); choice = -1; continue; }
+        if (!(cin >> choice)) {
+            cin.clear(); 
+            cin.ignore(10000, '\n'); 
+            choice = -1; 
+            continue; }
 
         switch (choice) {
         case 1: menuBC.menu(); break;
