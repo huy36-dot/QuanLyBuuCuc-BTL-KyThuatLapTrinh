@@ -18,7 +18,7 @@ class LoaiDichVu : public Entity {
 private:
     string tenDichVu;
     double phuPhi;
-    string moTa; 
+    string moTa;
 
 public:
     LoaiDichVu() : Entity(), tenDichVu(""), phuPhi(0.0), moTa("") {}
@@ -64,9 +64,9 @@ public:
     }
 
     void xuat() const override {
-        cout << left << setw(10) << maID << "| " << setw(20) << tenDichVu
-             << "| " << setw(12) << fixed << setprecision(0) << phuPhi 
-             << "| " << setw(25) << moTa << endl;
+        cout << left << setw(10) << maID << "| " << setw(25) << tenDichVu
+            << "| " << setw(15) << fixed << setprecision(0) << phuPhi
+            << "| " << setw(25) << moTa << endl;
     }
 
     string toFileRecord() const override {
@@ -95,8 +95,8 @@ private:
     void xoaManHinh() const { system("cls"); }
     void tamDung() const { cout << "\nNhan Enter de tiep tuc..."; cin.get(); }
     void inTieuDeBang() const {
-        cout << left << setw(10) << "Ma DV" << "| " << setw(20) << "Ten Loai Dich Vu" 
-             << "| " << setw(12) << "Phu Phi" << "| " << setw(25) << "Mo Ta" << endl;
+        cout << left << setw(10) << "Ma DV" << "| " << setw(25) << "Ten Loai Dich Vu"
+            << "| " << setw(15) << "Phu Phi" << "| " << setw(25) << "Mo Ta" << endl;
         cout << string(73, '-') << endl;
     }
 
@@ -134,7 +134,8 @@ public:
         LoaiDichVu* result = repo.findById(id);
         if (result != nullptr) {
             cout << "\nDa tim thay thong tin:\n"; inTieuDeBang(); result->xuat();
-        } else {
+        }
+        else {
             cout << "Khong tim thay loai dich vu co ma: " << id << "\n";
         }
     }
@@ -145,7 +146,7 @@ public:
 
         sort(list.begin(), list.end(), [](const LoaiDichVu& a, const LoaiDichVu& b) {
             return a.getTenDichVu() < b.getTenDichVu();
-        });
+            });
 
         cout << "-> Da sap xep danh sach theo Ten Dich Vu (A-Z)!\n";
         cout << "\n======================== KET QUA SAP XEP ========================\n";
@@ -188,7 +189,8 @@ public:
 
         if (confirm == 'y' || confirm == 'Y') {
             if (repo.removeById(id)) cout << "-> Xoa thanh cong!\n";
-        } else {
+        }
+        else {
             cout << "Huy thao tac xoa.\n";
         }
     }
