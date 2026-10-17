@@ -1,0 +1,10 @@
+DV01|Chuyen phat nhanh|20000|Giao hang trong vong 24h
+DV02|Chuyen phat tiet kiem|10000|Giao hang tiet kiem chi phi
+DV03|Chuyen phat hoa toc|50000|Giao hang trong vai gio
+DV04|Chuyen phat hang nang|100000|Ap dụng cho buu pham trong luong tren 10kg
+DV05|Chuyen phat COD|15000|Dich vu thu ho tien khi giao hang
+DV06|Chuyen phat bao dam|30000|Co bao hiem hang hoa gia tri cao
+DV07|Chuyen phat tai lieu hoả toc|40000|Chuyen tai lieu, hop dong khan cap
+DV08|Chuyen phat cuoi tuan|25000|Giao hang ca vao ngay thu bay va chu nhat
+DV09|Chuyen phat hẹn giờ|35000|Giao dung khung gio khach hang yeu cau
+DV10|Chuyen phat quoc te|200000|Dich vu van chuyen di nuoc ngoai
