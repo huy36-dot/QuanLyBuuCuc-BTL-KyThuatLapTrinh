@@ -10,19 +10,19 @@ using namespace std;
 void xoaManHinh() { system("cls"); }
 
 int main() {
-    // 1. Khoi tao co so du lieu (Repositories)
+    // 1. Khởi tạo cơ sở dữ liệu (Repositories)
     Repository<BuuCuc> repoBC("data/buu_cuc.txt");
     Repository<PhieuGui> repoPG("data/phieu_gui.txt");
     Repository<BuuPham> repoBP("data/buu_pham.txt");
     Repository<LoaiDichVu> repoLDV("data/loai_dich_vu.txt");
 
-    // 2. Khoi tao Giao dien va lien ket du lieu
+    // 2. Khởi tạo Giao diện và liên kết dữ liệu (đã cập nhật menuBP nhận đủ 3 tham số repo)
     BuuCucMenu menuBC(repoBC);
     PhieuGuiMenu menuPG(repoPG, repoBC);
-    BuuPhamMenu menuBP(repoBP, repoBC);
+    BuuPhamMenu menuBP(repoBP, repoBC, repoLDV); 
     LoaiDichVuMenu menuLDV(repoLDV);
 
-    // 3. Vong lap menu chinh
+    // 3. Vòng lặp menu chính
     int choice = -1;
     do {
         xoaManHinh();
@@ -35,12 +35,7 @@ int main() {
         cout << "=================================================================\n";
         cout << "Chon chuc nang: ";
 
-        if (!(cin >> choice)) { 
-            cin.clear(); 
-            cin.ignore(10000, '\n'); 
-            choice = -1;
-            continue; 
-        }
+        if (!(cin >> choice)) { cin.clear(); cin.ignore(10000, '\n'); choice = -1; continue; }
 
         switch (choice) {
         case 1: menuBC.menu(); break;
