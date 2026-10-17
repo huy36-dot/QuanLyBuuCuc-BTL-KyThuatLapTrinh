@@ -17,7 +17,7 @@ class LoaiDichVu : public Entity {
 private:
     string tenDichVu;
     double phuPhi;
-    string moTa; // Thêm thuộc tính thứ 3 để đảm bảo đúng yêu cầu đề bài (>= 3 thuộc tính)
+    string moTa; 
 
 public:
     LoaiDichVu() : Entity(), tenDichVu(""), phuPhi(0.0), moTa("") {}
