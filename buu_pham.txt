@@ -1,10 +1,10 @@
-BP001|Tai nghe Bluetooth|0.5|30000|BC01
-BP002|Sach lap trinh C++|1.2|25000|BC02
-BP003|Laptop Gaming ROG|2.8|150000|BC01
-BP004|Ao khoac mua dong|0.8|40000|BC03
-BP005|Tai lieu khan cap|0.2|50000|BC02
-BP006|Giay the thao Nike|1.0|45000|BC01
-BP007|Dien thoai thong minh|0.4|60000|BC03
-BP008|Dong ho thoi trang|0.3|35000|BC02
-BP009|May anh du lich|1.5|80000|BC01
-BP010|Binh giu nhiet cao cap|0.6|20000|BC03
+BP001|Tai nghe Bluetooth|0.5|30000|BC01|DV01
+BP002|Sach lap trinh C++|1.2|25000|BC02|DV02
+BP003|Laptop Gaming ROG|2.8|150000|BC01|DV04
+BP004|Ao khoac mua dong|0.8|40000|BC03|DV03
+BP005|Tai lieu khan cap|0.2|50000|BC02|DV07
+BP006|Giay the thao Nike|1.0|45000|BC01|DV01
+BP007|Dien thoai thong minh|0.4|60000|BC03|DV06
+BP008|Dong ho thoi trang|0.3|35000|BC02|DV08
+BP009|May anh du lich|1.5|80000|BC01|DV06
+BP010|Binh giu nhiet cao cap|0.6|20000|BC03|DV02
