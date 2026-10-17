@@ -12,6 +12,7 @@
 #include "Entity.h"
 #include "Repository.h"
 #include "BuuCuc.h"
+#include "LoaiDichVu.h" // Thêm thư viện để tham chiếu tới Loại dịch vụ
 
 using namespace std;
 
@@ -21,9 +22,10 @@ private:
     double trongLuong;
     double cuocPhi;
     string maBuuCucGui;
+    string maLoaiDichVu; // Khóa ngoại tham chiếu sang LoaiDichVu
 
 public:
-    BuuPham() : Entity(), tenBuuPham(""), trongLuong(0.0), cuocPhi(0.0), maBuuCucGui("") {}
+    BuuPham() : Entity(), tenBuuPham(""), trongLuong(0.0), cuocPhi(0.0), maBuuCucGui(""), maLoaiDichVu("") {}
 
     string getTenBuuPham() const { return tenBuuPham; }
     void setTenBuuPham(const string& ten) {
@@ -47,6 +49,12 @@ public:
     void setMaBuuCucGui(const string& maBC) {
         if (maBC.empty()) throw invalid_argument("Ma buu cuc gui khong duoc de trong!");
         maBuuCucGui = maBC;
+    }
+
+    string getMaLoaiDichVu() const { return maLoaiDichVu; }
+    void setMaLoaiDichVu(const string& maLDV) {
+        if (maLDV.empty()) throw invalid_argument("Ma loai dich vu khong duoc de trong!");
+        maLoaiDichVu = maLDV;
     }
 
     void nhap() override {
@@ -83,15 +91,16 @@ public:
     }
 
     void xuat() const override {
-        cout << left << setw(10) << maID << "| " << setw(22) << tenBuuPham
-             << "| " << setw(14) << fixed << setprecision(1) << trongLuong 
-             << "| " << setw(12) << fixed << setprecision(0) << cuocPhi 
-             << "| " << setw(12) << maBuuCucGui << endl;
+        cout << left << setw(8) << maID << "| " << setw(18) << tenBuuPham
+             << "| " << setw(10) << fixed << setprecision(1) << trongLuong 
+             << "| " << setw(10) << fixed << setprecision(0) << cuocPhi 
+             << "| " << setw(10) << maBuuCucGui 
+             << "| " << setw(10) << maLoaiDichVu << endl;
     }
 
     string toFileRecord() const override {
         stringstream ss;
-        ss << maID << "|" << tenBuuPham << "|" << trongLuong << "|" << cuocPhi << "|" << maBuuCucGui;
+        ss << maID << "|" << tenBuuPham << "|" << trongLuong << "|" << cuocPhi << "|" << maBuuCucGui << "|" << maLoaiDichVu;
         return ss.str();
     }
 
@@ -99,12 +108,13 @@ public:
         stringstream ss(record);
         string item; vector<string> tokens;
         while (getline(ss, item, '|')) tokens.push_back(item);
-        if (tokens.size() == 5) {
+        if (tokens.size() >= 6) {
             maID = tokens[0];
             tenBuuPham = tokens[1];
             trongLuong = stod(tokens[2]);
             cuocPhi = stod(tokens[3]);
             maBuuCucGui = tokens[4];
+            maLoaiDichVu = tokens[5];
         }
     }
 };
@@ -113,17 +123,20 @@ class BuuPhamMenu {
 private:
     Repository<BuuPham>& repoBP;
     Repository<BuuCuc>& repoBC;
+    Repository<LoaiDichVu>& repoLDV; // Thêm repository loại dịch vụ để kiểm tra ràng buộc
 
     void xoaManHinh() const { system("cls"); }
     void tamDung() const { cout << "\nNhan Enter de tiep tuc..."; cin.get(); }
     void inTieuDeBang() const {
-        cout << left << setw(10) << "Ma BP" << "| " << setw(22) << "Ten Buu Pham"
-             << "| " << setw(14) << "Trong Luong" << "| " << setw(12) << "Cuoc Phi" << "| " << setw(12) << "Ma Buu Cuc" << endl;
-        cout << string(76, '-') << endl;
+        cout << left << setw(8) << "Ma BP" << "| " << setw(18) << "Ten Buu Pham"
+             << "| " << setw(10) << "Trong Luong" << "| " << setw(10) << "Cuoc Phi" 
+             << "| " << setw(10) << "Ma BC" << "| " << setw(10) << "Ma DV" << endl;
+        cout << string(72, '-') << endl;
     }
 
 public:
-    BuuPhamMenu(Repository<BuuPham>& bp, Repository<BuuCuc>& bc) : repoBP(bp), repoBC(bc) {}
+    BuuPhamMenu(Repository<BuuPham>& bp, Repository<BuuCuc>& bc, Repository<LoaiDichVu>& ldv) 
+        : repoBP(bp), repoBC(bc), repoLDV(ldv) {}
 
     void themMoi() {
         cout << "\n=== THEM MOI BUU PHAM ===\n";
@@ -144,9 +157,22 @@ public:
                 cout << "Nhap ma Buu cuc gui (VD: BC01): "; getline(cin, temp);
                 if (temp.empty()) throw invalid_argument("Khong duoc de trong!");
                 if (repoBC.findById(temp) == nullptr) {
-                    throw invalid_argument("Buu cuc nay chua ton tai trong he thong! Vui long kiem tra lai.");
+                    throw invalid_argument("Buu cuc nay chua ton tai trong he thong!");
                 }
                 bp.setMaBuuCucGui(temp);
+                break;
+            }
+            catch (const exception& e) { cout << "Loi: " << e.what() << "\n"; }
+        }
+
+        while (true) {
+            try {
+                cout << "Nhap ma Loai dich vu (VD: DV01): "; getline(cin, temp);
+                if (temp.empty()) throw invalid_argument("Khong duoc de trong!");
+                if (repoLDV.findById(temp) == nullptr) {
+                    throw invalid_argument("Loai dich vu nay chua ton tai trong he thong!");
+                }
+                bp.setMaLoaiDichVu(temp);
                 break;
             }
             catch (const exception& e) { cout << "Loi: " << e.what() << "\n"; }
@@ -160,7 +186,7 @@ public:
     void xemDanhSach() const {
         auto list = repoBP.getAll();
         if (list.empty()) { cout << "\nDanh sach buu pham trong!\n"; return; }
-        cout << "\n========================= DANH SACH BUU PHAM =========================\n";
+        cout << "\n============================= DANH SACH BUU PHAM =============================\n";
         inTieuDeBang();
         for (const auto& item : list) item.xuat();
         cout << "Tong so buu pham: " << list.size() << endl;
@@ -181,11 +207,11 @@ public:
         if (list.empty()) { cout << "\nDanh sach trong!\n"; return; }
 
         sort(list.begin(), list.end(), [](const BuuPham& a, const BuuPham& b) {
-            return a.getCuocPhi() < b.getCuocPhi(); // Sắp xếp cước phí tăng dần
+            return a.getCuocPhi() < b.getCuocPhi();
         });
 
         cout << "-> Da sap xep danh sach theo Cuoc Phi (Tang dan)!\n";
-        cout << "\n========================= KET QUA SAP XEP =========================\n";
+        cout << "\n============================= KET QUA SAP XEP =============================\n";
         inTieuDeBang();
         for (const auto& item : list) item.xuat();
     }
@@ -216,6 +242,15 @@ public:
                 cout << "Loi: Buu cuc khong ton tai! Giu nguyen ma cu.\n";
             } else {
                 newData.setMaBuuCucGui(temp);
+            }
+        }
+
+        cout << "Nhap ma loai dich vu moi [" << old->getMaLoaiDichVu() << "]: "; getline(cin, temp);
+        if (!temp.empty()) {
+            if (repoLDV.findById(temp) == nullptr) {
+                cout << "Loi: Loai dich vu khong ton tai! Giu nguyen ma cu.\n";
+            } else {
+                newData.setMaLoaiDichVu(temp);
             }
         }
 
